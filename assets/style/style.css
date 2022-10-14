@@ -1,0 +1,21 @@
+/* element styles */
+main {
+    display: flex;
+    justify-content: center;
+}
+
+
+/* oo classes */
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* media queries */
+@media screen and (max-width: 375px) {
+}
+
+@media screen and (min-width: 376px) and (max-width: 1119px) {
+
+}
