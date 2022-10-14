@@ -1,7 +1,10 @@
 // Create global variables
-var timer = 60;
-var startQuizBtn = document.querySelector(".start"); // Must add "." or "#". Cannot read properties of null (reading 'addEventListener')
-var timeEl = document.querySelector(".timer");
+var timer        = 60,
+    startQuizBtn = document.querySelector(".start"), // Must add "." or "#". Cannot read properties of null (reading 'addEventListener')
+    timeEl       = document.querySelector(".timer"),
+    newText      = document.getElementById("quiz");
+
+console.log(newText);
 
 // Update timer
 function timerText() {
@@ -12,29 +15,76 @@ function timerText() {
         if (timer === 0) {
             // Stops execution of action at set interval
             clearInterval(timerInterval); 
-            alert("Time's up!");
+            //alert("Time's up!");
         }
 
     }, 1000); // 1 second
 }
 
 function startQuiz() {
-    var quiz = [];
+    var item   = [
+        {
+            question: "Commonly used data types DO NOT include:",
+            answers: ["1. Strings", "2. Booleans", "3. Alerts", "4. Numbers"],
+            anskey: "Booleans"
+        },
+        {
+            question: "The condition in an if/else statement is enclosed within ______.",
+            answers: ["1. quotes", "2. curly brackets", "3. parenthesis", "4. square brackets"],
+            anskey: "Booleans"
+        },
+        {
+            question: "Arrays in JavaScript can be used to store _____.",
+            answers: ["1. numbers and strings", "2. other arrays", "3. booleans", "4. all of the above"],
+            anskey: "Booleans"
+        },
+        {
+            question: "Commonly used data types DO NOT include:",
+            answers: ["1. Strings", "2. Booleans", "3. Alerts", "4. Numbers"],
+            anskey: "Booleans"
+        },
+        {
+            question: "Commonly used data types DO NOT include:",
+            answers: ["1. Strings", "2. Booleans", "3. Alerts", "4. Numbers"],
+            anskey: "Booleans"
+        }
+    ],
+    questionEl = "<h2>" + item.question + "</h2>",
+    answerEl   = "";
 
-    var item = {
-        question: "Commonly used data types DO NOT include:",
-        answers: ["Strings", "Booleans", "Alerts", "Numbers"],
-        key: "Booleans"
+    
+
+    for (i=0; i < item.length; i++) {
+        answerEl += "<button class='answer'>" + item[i]+ "</button>";
     }
 
+    newText.innerHTML = questionEl;
+    newText.innerHTML += answerEl;    
 
+    var answerBtn = document.querySelector(".answer");
+
+    answerBtn.addEventListener("click", function() {
+        console.log(item["answers"]);
+/*
+        if (this.item[answers] === item.key) {            
+            document.getElementById("validator").innerHTML = "Correct!";
+            console.log("Correct");
+        } else {
+            document.getElementById("validator").innerHTML = "Wrong!";            
+            console.log("Wrong");
+        }*/
+
+    });
 }
+//console.log(newText.innerHTML + "after");
+
+
 
 // Attach event listener
 startQuizBtn.addEventListener("click", function() {
     timerText();
     startQuiz();
-    console.log("I've been clicked!");
+    //console.log("I've been clicked!");
 });
 
 
