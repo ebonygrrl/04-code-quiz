@@ -11,13 +11,19 @@
 <body>
     <header>
         <section class="dashboard">
-            <div class="scores">View High Scores</div>
-            <div class="time"></div>
-            <h1>Coding Quiz Challenge</h1>
+            <button class="scores">View High Scores</button>
+            <div>Time: <span class="timer">0</span></div>
         </section>
     </header>
     <main>
-        <section class="quiz"></section>
+        <section class="quiz">
+            <h1>Coding Quiz Challenge</h1>
+            <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
+            <button class="start">Start Quiz</button>
+        </section>
+        <section>
+            <p class="response"></p>
+        </section>
     </main>
     <script src="assets/js/script.js"></script>
 </body>

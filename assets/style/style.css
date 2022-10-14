@@ -1,7 +1,47 @@
+/* variables */
+:root {
+--lavender: #D9D3E9;
+--dkpurple: #2A136D;
+--ltpurple: #BB5BE6;
+--dkgray: #878588;
+}
+
 /* element styles */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+    background-color: var(--dkpurple);
+    border-radius: 5px;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px;
+}
+
+button:hover {
+    background-color: var(--ltpurple);
+}
+
+header {
+    margin: 0 auto 30px;
+    max-width: 800px;
+}
+
+input {
+    background-color: lavender;
+}
+
 main {
-    display: flex;
-    justify-content: center;
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 0 50px;
+}
+
+main p {
+    margin-bottom: 30px;
+    padding: 0 50px;
 }
 
 
@@ -10,6 +50,28 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.response {
+    border-top: 1px solid var(--dkgray);
+    color: var(--dkgray);
+    display: none;
+    font-style: italic;
+    padding-top: 5px;
+
+}
+
+button.scores {
+    background-color:transparent;
+    color: var(--ltpurple);
+}
+
+button.scores:hover {
+    color: var(--dkpurple);
+}
+
+.quiz {
+    text-align: center;
 }
 
 /* media queries */
