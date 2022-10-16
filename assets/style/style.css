@@ -62,7 +62,8 @@ main p {
     color: var(--dkgray);
     display: none;
     font-style: italic;
-    padding-top: 5px;
+    padding: 5px 0;
+    text-align: left;
 
 }
 
