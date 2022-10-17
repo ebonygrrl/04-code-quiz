@@ -76,9 +76,12 @@ button.scores:hover {
     color: var(--dkpurple);
 }
 
-.quiz-container button:not(.start) {
+.quiz-container .option {
     display: block;
     margin-bottom: 10px;
+    padding-right: 50px;
+    text-align: left;
+    width: 250px;
 }
 
 .quiz-container .start {

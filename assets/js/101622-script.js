@@ -2,11 +2,24 @@
 var timer        = 60,
     startQuizBtn = document.querySelector(".start"), // Must add "." or "#". Cannot read properties of null (reading 'addEventListener')
     timeEl       = document.querySelector(".timer"),
-    newText      = document.getElementById("quiz"),
-    validator    = document.getElementById("validator");
+    newText      = document.getElementById("quiz");
 
 // console.log(newText);
 
+// Update timer
+function timerText() {
+    var timerInterval = setInterval(function() {
+        timer--;
+        timeEl.textContent = timer;
+
+        if (timer === 0) {
+            // Stops execution of action at set interval
+            clearInterval(timerInterval); 
+            //alert("Time's up!");
+        }
+
+    }, 1000); // 1 second
+}
 
 // Store questions, choices and answers in array of objects
 var item   = [
@@ -36,25 +49,18 @@ var item   = [
         anskey: 3
     },
 ],
-allQuestions = item.length,
-questionEl   = "",
-answerEl     = "",
-keyEl        = "",
-nextPage;
+questionEl = "",
+answerEl   = "",
+keyEl      = "";
 
 // Loop through array
-for (var i=0; i < allQuestions; i++) {
+for (var i=0; i < item.length; i++) {
+
     questionEl = "<h2>" + item[i].question + "</h2>";
     keyEl = item[i].anskey;
 
     for (var j=0; j < item[i].options.length; j++) {
-        var option = item[i].options[j];
-        if (option === keyEl) {
-            nextPage = item[i+1];
-            answerEl += "<button id='answer' class='option'>" + [j + 1] + ". " + option + "</button>";
-        } else {
-            answerEl += "<button class='option'>" + [j + 1] + ". " + option + "</button>";
-        }
+        answerEl += "<button class='option'>" + [j + 1] + ". " + item[i].options[j] + "</button>";
     }
 
     console.log(questionEl); // returns question
@@ -69,42 +75,31 @@ for (var i=0; i < allQuestions; i++) {
 
 // Listen event for selection
 newText.addEventListener("click", function(e) { 
-    e.preventDefault();
+
+    console.log(e, item[0].options);  
+    var validator = document.getElementById("validator"); 
 
     if (e.target !== e.currentTarget) {
-        if (e.target.id) {
+        var choice = e.target.id; 
+        if (choice === keyEl) {
             validator.innerHTML = "Correct!";
             validator.style.display = "block";
             console.log("Correct");
-            nextPage;
-            console.log(nextPage);
         } else {
             validator.innerHTML = "Wrong!";  
             validator.style.display = "block";        
             console.log("Wrong");
-            timerText(-10);
         }
     }
 
     e.stopPropagation();
 }, false);
+    //console.log(allOpt); // shows options in array
+ /*   
 
-// Update timer
-function timerText(penalty) {
-    var timerInterval = setInterval(function() {
-        timer--;
-        timeEl.textContent = timer;
-
-        penalty = timer-1;
-
-    }, 1000); // 1 second
-
-    if (timer === 0) {
-        // Stops execution of action at set interval
-        clearInterval(timerInterval); 
-        //alert("Time's up!");
-    }
-}
+    var answerBtn = document.querySelectorAll(".answer"),
+        choice    = this.answerBtn;
+    console.log(answerBtn);*/
 
 // Attach event listener
 startQuizBtn.addEventListener("click", function() {
