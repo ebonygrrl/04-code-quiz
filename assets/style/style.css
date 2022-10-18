@@ -24,6 +24,10 @@ button:hover {
     background-color: var(--ltpurple);
 }
 
+form {
+    margin: 15px 0;
+}
+
 h1 {
     text-align: center;
 }
@@ -35,6 +39,19 @@ header {
 
 input {
     background-color: lavender;
+    border: none;
+    margin-right: 4px;
+    outline: none;
+    padding: 9px 5px;
+}
+
+ol {
+    list-style-position: inside;
+}
+
+ol li {
+    background-color: lavender;
+    padding: 10px;
 }
 
 main {
@@ -87,6 +104,11 @@ button.scores:hover {
 .quiz-container .start {
     display: block;
     margin:0 auto;
+}
+
+.score-list {
+    margin-left: 0;
+    padding-left: 0;
 }
 
 /* media queries */

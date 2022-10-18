@@ -16,14 +16,30 @@
         </section>
     </header>
     <main>
-        <section id="quiz-start" class="quiz-container">
-            <h1>Coding Quiz Challenge</h1>
-            <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
-            <button class="start">Start Quiz</button>
-        </section>
-        <section id="quiz" class="quiz-container"></section>
-        <section>
-            <p id="validator" class="response"></p>
+        <section class="quiz-container">
+            <div id="quiz-start">
+                <h1>Coding Quiz Challenge</h1>
+                <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
+                <button class="start">Start Quiz</button>
+            </div>            
+            <div id="quiz"></div>
+            <div id="validator"></div>
+            <div id="quiz-end">
+                <h2>All done!</h2>
+                <span>Your final score is <span class="final-score">0</span>.</span>
+                <form>
+                    <input id="initials" type="text">
+                    <button id="submit" type="submit">Submit</button>
+                </form>
+            </div>
+            <div id="high-scores">
+                <h2>High Scores</h2>
+                <ol class="score-list">
+                    <li></li>
+                </ol>
+                <button class="resetBtn">Go Back</button>
+                <button class="clearBtn">Clear High Scores</button>
+            </div>
         </section>
     </main>
     <script src="assets/js/script.js"></script>

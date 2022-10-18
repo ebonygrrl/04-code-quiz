@@ -1,8 +1,12 @@
 // Create global variables
 var startQuizBtn = document.querySelector(".start"), // Must add "." or "#". Cannot read properties of null (reading 'addEventListener')
     timeEl       = document.querySelector(".timer"),
-    newText      = document.getElementById("quiz"),
-    validator    = document.getElementById("validator");
+    startScreen  = document.getElementById("quiz-start"),
+    endScreen    = document.getElementById("quiz-end"),
+    quizQna      = document.getElementById("quiz"),
+    validator    = document.getElementById("validator"),
+    highScores   = document.getElementById("high-scores");
+    scoreList    = document.querySelector(".score-list");
 
 var timer = 60;
 
@@ -16,22 +20,22 @@ var quiz = [
     {
         question: "The condition in an if/else statement is enclosed within ______.",
         options: ["quotes", "curly brackets", "parenthesis", "square brackets"],
-        anskey: 2
+        anskey: "parenthesis"
     },
     {
         question: "Arrays in JavaScript can be used to store ______.",
         options: ["numbers and strings", "other arrays", "booleans", "all of the above"],
-        anskey: 3
+        anskey: "all of the above"
     },
     {
         question: "String values must be enclosed within when being assigned to variables.",
         options: ["commas", "curly brackets", "quotes", "parenthesis"],
-        anskey: 2
+        anskey: "quotes"
     },
     {
         question: "A very usefull tool used during development and debugging for printing content to the debugger is:",
         options: ["JavaScript", "terminal/bash", "for loops", "console.log"],
-        anskey: 3
+        anskey: "console.log"
     },
 ];
 
@@ -43,6 +47,20 @@ function init() {
 // Subtract time for wrong answers
 function penaltyTime() {
 
+}
+
+function checkAnswer(e) {
+    if (e.target !== e.currentTarget) {
+        if (e.target.id) {
+            validator.innerHTML = "<p class='response'>Correct!</p>";
+            validator.style.display = "block";
+            console.log("Correct");
+        } else {
+            validator.innerHTML = "<p class='response'>Wrong!</p>";  
+            validator.style.display = "block";        
+            console.log("Wrong");
+        }
+    }
 }
 
 // Update timer
@@ -74,16 +92,17 @@ function startQuiz() {
 
 // End quiz
 function endQuiz() {
-
+    storeScore();
 }
 
 // Go to next question
 function nextPage() {
+    checkAnswer();
     
 }
 
 // Submit initials with score
-function submitBtn() {
+function storeScore() {
     
 }
 
@@ -106,7 +125,7 @@ startButton.addEventListener("click", startQuiz);
 answerButton.addEventListener("click", nextPage);
 
 // Submit initials
-submitButton.addEventListener("click", submitBtn);
+submitButton.addEventListener("click", storeScore);
 
 // Go back
 resetButton.addEventListener("click", resetQuiz);
