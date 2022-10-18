@@ -1,15 +1,13 @@
 // Create global variables
-var timer        = 60,
-    startQuizBtn = document.querySelector(".start"), // Must add "." or "#". Cannot read properties of null (reading 'addEventListener')
+var startQuizBtn = document.querySelector(".start"), // Must add "." or "#". Cannot read properties of null (reading 'addEventListener')
     timeEl       = document.querySelector(".timer"),
     newText      = document.getElementById("quiz"),
     validator    = document.getElementById("validator");
 
-// console.log(newText);
-
+var timer = 60;
 
 // Store questions, choices and answers in array of objects
-var item   = [
+var quiz = [
     {
         question: "Commonly used data types DO NOT include:",
         options: ["strings", "booleans", "alerts", "numbers"],
@@ -35,93 +33,84 @@ var item   = [
         options: ["JavaScript", "terminal/bash", "for loops", "console.log"],
         anskey: 3
     },
-],
-allQuestions = item.length,
-questionEl   = "",
-answerEl     = "",
-keyEl        = "",
-nextPage;
+];
 
-// Loop through array
-for (var i=0; i < allQuestions; i++) {
-    questionEl = "<h2>" + item[i].question + "</h2>";
-    keyEl = item[i].anskey;
+// Get scores on page load
+function init() {
 
-    for (var j=0; j < item[i].options.length; j++) {
-        var option = item[i].options[j];
-        if (option === keyEl) {
-            nextPage = item[i+1];
-            answerEl += "<button id='answer' class='option'>" + [j + 1] + ". " + option + "</button>";
-        } else {
-            answerEl += "<button class='option'>" + [j + 1] + ". " + option + "</button>";
-        }
-    }
-
-    console.log(questionEl); // returns question
-    console.log("----------");
-    console.log(answerEl); // returns html for buttons
-    console.log("----------");
-    console.log(keyEl); // returns answer to question
-    console.log("----------");
-
-    break;
 }
 
-// Listen event for selection
-newText.addEventListener("click", function(e) { 
-    e.preventDefault();
+// Subtract time for wrong answers
+function penaltyTime() {
 
-    if (e.target !== e.currentTarget) {
-        if (e.target.id) {
-            validator.innerHTML = "Correct!";
-            validator.style.display = "block";
-            console.log("Correct");
-            nextPage;
-            console.log(nextPage);
-        } else {
-            validator.innerHTML = "Wrong!";  
-            validator.style.display = "block";        
-            console.log("Wrong");
-            timerText(-10);
-        }
-    }
-
-    e.stopPropagation();
-}, false);
+}
 
 // Update timer
-function timerText(penalty) {
+function timerText() {
     var timerInterval = setInterval(function() {
         timer--;
         timeEl.textContent = timer;
 
-        penalty = timer-1;
+        // Penalty for wrong answer
+        if (timer > 0) {
+            penaltyTime();
+        }
+
+        if (timer === 0) {
+            // Stops execution of action at set interval
+            clearInterval(timerInterval); 
+            //alert("Time's up!");
+            endQuiz();
+        }
 
     }, 1000); // 1 second
-
-    if (timer === 0) {
-        // Stops execution of action at set interval
-        clearInterval(timerInterval); 
-        //alert("Time's up!");
-    }
 }
 
-// Attach event listener
-startQuizBtn.addEventListener("click", function() {
-    // Update CSS
-    document.getElementById("quiz-start").style.display = "none";
-    
-    // Set up question and options
-    newText.innerHTML = questionEl + "<br>" + answerEl;  
-
+// Start quiz
+function startQuiz() {
     timerText();
-    //startQuiz();    
-    //console.log("I've been clicked!");
-});
 
+}
 
+// End quiz
+function endQuiz() {
 
+}
 
-/* All done! Your final score is *22*. Enter initials: input, submit
-Highscores: 1. AB - 22 <go back> <clear highscores>
-*/
+// Go to next question
+function nextPage() {
+    
+}
+
+// Submit initials with score
+function submitBtn() {
+    
+}
+
+// Reset quiz - Go back button
+function resetQuiz() {
+    
+}
+
+// Clear all scores
+function clearScores() {
+    
+}
+
+// Event listeners
+
+// Start quiz
+startButton.addEventListener("click", startQuiz);
+
+// Next question
+answerButton.addEventListener("click", nextPage);
+
+// Submit initials
+submitButton.addEventListener("click", submitBtn);
+
+// Go back
+resetButton.addEventListener("click", resetQuiz);
+
+// Clear high scores
+clearButton.addEventListener("click", clearScores);
+

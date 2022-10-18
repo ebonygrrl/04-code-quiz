@@ -1,4 +1,19 @@
 // Click start button, timer starts with first question
+// Update timer
+/*function timerText() {
+    var timerInterval = setInterval(function() {
+        timer--;
+        timeEl.textContent = timer;
+
+        if (timer === 0) {
+            // Stops execution of action at set interval
+            clearInterval(timerInterval); 
+            //alert("Time's up!");
+        }
+
+    }, 1000); // 1 second
+
+}*/
 
 // Answer question, then shown another question
 
