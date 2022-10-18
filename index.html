@@ -17,29 +17,31 @@
     </header>
     <main>
         <section class="quiz-container">
-            <div id="quiz-start">
+            <section id="quiz-start">
                 <h1>Coding Quiz Challenge</h1>
                 <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
                 <button class="start">Start Quiz</button>
-            </div>            
-            <div id="quiz"></div>
-            <div id="validator"></div>
-            <div id="quiz-end">
+            </section>  
+            <section id="qna" class="hide">          
+                <div id="quiz"></div>
+                <div id="validator"></div>
+            </section>
+            <section id="quiz-end" class="hide">
                 <h2>All done!</h2>
                 <span>Your final score is <span class="final-score">0</span>.</span>
                 <form>
                     <input id="initials" type="text">
                     <button id="submit" type="submit">Submit</button>
                 </form>
-            </div>
-            <div id="high-scores">
+            </section>
+            <section id="high-scores" class="hide">
                 <h2>High Scores</h2>
                 <ol class="score-list">
                     <li></li>
                 </ol>
-                <button class="resetBtn">Go Back</button>
-                <button class="clearBtn">Clear High Scores</button>
-            </div>
+                <button class="reset">Go Back</button>
+                <button class="clear">Clear High Scores</button>
+            </section>
         </section>
     </main>
     <script src="assets/js/script.js"></script>
