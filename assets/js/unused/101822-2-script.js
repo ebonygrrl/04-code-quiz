@@ -109,18 +109,24 @@ function endQuiz() {
 function nextPage() {   
     var query = quiz[count];
 
+
     for (i=0; i < quiz.length; i++) {
-             
-        totalCount = quiz.length;
+        
+    console.log(quiz.length);
 
         keyEl = query.anskey;
-
-        if (i <= totalCount) {         
-            totalCount++;            
+        if (totalCount > 5) {
+            totalCount = quiz.length;
+        } else {
+            totalCount++;
         }
+        //console.log("Loop totalCount: " + totalCount);
+
 
         output  = "<h2>" + query.question + "</h2>";
         output += "<ol id='options' class='options'>";
+
+        //console.log(keyEl);
 
         for (j=0; j < query.options.length; j++) {
             if (query.options[j] === keyEl) {
@@ -130,23 +136,19 @@ function nextPage() {
             }
         }
         output += "</ol>";
-        
     }
     quizQna.innerHTML = output;
- 
-    checkAnswer();    
     
-    return;
+    checkAnswer();      
 }
 
 // Check answers
-function checkAnswer() { 
+function checkAnswer() {  
     quizCont.addEventListener("click", function(e) {
         e.preventDefault();
                 
         if (e.target !== e.currentTarget) {
-            console.log(e.target.textContent);
-            if (e.target.textContent === keyEl && e.target.id === 'answer') {
+            if (e.target.textContent === keyEl) {
                 validator.innerHTML = "<p class='response'>Correct!</p>";
                 validator.style.display = "block";
             } else {
@@ -156,17 +158,14 @@ function checkAnswer() {
             }
         }
 
-        if (count <= totalCount--) {
+        if (count < totalCount - 1) {
             ++count;
-            nextPage();
         } else {
             //endQuiz();
         }
 
         e.stopPropagation();
     });
-
-    return;
 }
 
 // Submit initials with score
