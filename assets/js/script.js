@@ -16,11 +16,12 @@ var startQuizBtn = document.querySelector(".start"), // Must add "." or "#". Can
     clearBtn     = document.querySelector(".clear"),
     optionsList  = document.getElementById("options"),
     selectOpt    = document.getElementById("answer");
+    answerButton = document.querySelector(".option");
 
-
-var timer = 60;
-
-var answerButton = document.querySelector(".option");
+// Counters
+var timer = 59,
+    count = 0;
+    score = 0;
 
 // Store questions, choices, answers and value of answer in array of objects
 var quiz = [
@@ -56,14 +57,30 @@ var quiz = [
     },
 ];
 
-var totalCount = 0,
-    count      = 0,
-    keyEl      = "",
-    output     = "";
-
 // Get scores on page load
 function init() {
+    nextPage(count);
+}
 
+// Go to next question
+function nextPage(index) {  
+    var output = "";    
+
+    console.log(count, quiz[index]);
+
+    output  = "<h2>" + quiz[index].question + "</h2>";
+    output += "<ol id='options' class='options'>";
+
+    for (j=0; j < quiz[index].options.length; j++) {
+        if (quiz[index].options[j] === quiz[index].anskey) {
+            output += "<li id='answer' class='option'>" + quiz[index].options[j] + "</li>";
+        } else {
+            output += "<li class='option'>" + quiz[index].options[j] + "</li>";
+        }
+    }
+    output += "</ol>";
+    
+    quizQna.innerHTML = output;
 }
 
 // Update timer
@@ -72,11 +89,11 @@ function timerText() {
         timer--;
         timeEl.textContent = timer;
 
-        if (timer === 0) {
+        if (timer === 0 || timeEl.textContent === 0) {
             //alert("Time's up!");
             // Stops execution of action at set interval
             clearInterval(timerInterval); 
-            //endQuiz();
+            endQuiz();
         }
 
     }, 1000); // 1 second
@@ -85,95 +102,40 @@ function timerText() {
 // Start quiz // WORKS!
 function startQuiz() { 
     timerText();
-    nextPage();
+
     startScreen.style.display = "none";
     quizCont.style.display = "block";
 }
 
 // Hide quiz, show save initials and score 
-function endQuiz() {
+function endQuiz() {  
+    if (timer > 0) {
+        timeEl.textContent = 0;
+    } else {
+        timeEl.innerHTML = 0;
+    }
+    
+    // Need to calculate score based on correct answers
+    userScore.innerHTML = score;
+     
     quizCont.style.display = "none";
     endScreen.style.display = "block";
-
-    // Need to calculate score based on correct answers
-
-    // Save data as an object to browser
-    var userScore = {
-        user: userInitials.value,
-        score: userScore.value
-    };
-    localStorage.setItem("user", JSON.stringify(userScore));
-}
-
-// Go to next question
-function nextPage() {   
-    var query = quiz[count];
-
-    for (i=0; i < quiz.length; i++) {
-             
-        totalCount = quiz.length;
-
-        keyEl = quiz[count].anskey;
-
-        if (i <= totalCount) {         
-            totalCount++;            
-        }
-
-        output  = "<h2>" + query.question + "</h2>";
-        output += "<ol id='options' class='options'>";
-
-        for (j=0; j < query.options.length; j++) {
-            if (query.options[j] === keyEl) {
-                output += "<li id='answer' class='option'>" + query.options[j] + "</li>";
-            } else {
-                output += "<li class='option'>" + query.options[j] + "</li>";
-            }
-        }
-        output += "</ol>";
-    }
-
-    console.log(keyEl);
-    quizQna.innerHTML = output;
- /*   
-    checkAnswer();      
-}
-
-// Check answers
-function checkAnswer() {  */
-    quizCont.addEventListener("click", function(e) {
-        e.preventDefault();
-                
-        if (e.target !== e.currentTarget) {
-            console.log(e.target.textContent);
-            if (e.target.textContent === keyEl) {
-                validator.innerHTML = "<p class='response'>Correct!</p>";
-                validator.style.display = "block";
-            } else {
-                validator.innerHTML = "<p class='response'>Wrong!</p>";  
-                validator.style.display = "block";
-                //timerText(10);     
-            }
-        }
-
-        if (count <= totalCount--) {
-            //console.log("Count: " + count + ", Loop totalCount: " + totalCount);
-            nextPage();
-        } else {
-            //endQuiz();
-        }
-
-        //e.stopPropagation();
-    });
 }
 
 // Submit initials with score
 function storeScore() {
-    // Need to calculate score based on correct answers
+
+    // Save data as an object to browser
+    var userFinalScore = {
+        user: userInitials.value,
+        score: userScore.textContent
+    };
+    localStorage.setItem("userFinalScore", JSON.stringify(userFinalScore));
 }
 
 // Show all scores
 function showScores() {  
-    //console.log(timeEl.textContent);
+    
     if (timeEl.textContent > 0) {
         alert("This action is unavailable at this time.");
     } else {
@@ -201,16 +163,44 @@ function clearScores() {
 viewScores.addEventListener("click", showScores);
 
 startQuizBtn.addEventListener("click", startQuiz);
-/*
-// Next question
-answerButton.addEventListener("click", nextPage);
 
 // Submit initials
-submitBtn.addEventListener("click", storeScore);
-*/
+submitBtn.addEventListener("click", function(e) {
+    e.preventDefault();
+    storeScore();
+    showScores();
+});
+
 // Go back to start quiz
 resetBtn.addEventListener("click", resetQuiz);
 
 // Clear high scores
 clearBtn.addEventListener("click", clearScores);
 
+// Check answers and skip to next question
+quizCont.addEventListener("click", function(e) {
+    if (e.target !== e.currentTarget) {
+        console.log(e.target.textContent);
+        if (e.target.id === 'answer') {
+            validator.innerHTML = "<p class='response'>Correct!</p>";
+            validator.style.display = "block";
+            score += 20; // Add to total score
+        } else {
+            validator.innerHTML = "<p class='response'>Wrong!</p>";  
+            validator.style.display = "block";
+            timer -= 10; // Penalty for wrong answer
+        }
+    }
+
+    // Increase count for index
+    count += 1;
+
+    if (count < quiz.length) {
+        nextPage(count);
+    } else {
+        endQuiz();
+    }
+});
+
+// initial function
+init();
