@@ -27,7 +27,7 @@ var quiz = [
     {
         question: "Commonly used data types DO NOT include:",
         options: ["strings", "booleans", "alerts", "numbers"],
-        anskey: "booleans",
+        anskey: "alerts",
         value: 20
     },
     {
@@ -113,7 +113,7 @@ function nextPage() {
              
         totalCount = quiz.length;
 
-        keyEl = query.anskey;
+        keyEl = quiz[count].anskey;
 
         if (i <= totalCount) {         
             totalCount++;            
@@ -130,23 +130,22 @@ function nextPage() {
             }
         }
         output += "</ol>";
-        
     }
+
+    console.log(keyEl);
     quizQna.innerHTML = output;
- 
-    checkAnswer();    
-    
-    return;
+ /*   
+    checkAnswer();      
 }
 
 // Check answers
-function checkAnswer() { 
+function checkAnswer() {  */
     quizCont.addEventListener("click", function(e) {
         e.preventDefault();
                 
         if (e.target !== e.currentTarget) {
             console.log(e.target.textContent);
-            if (e.target.textContent === keyEl && e.target.id === 'answer') {
+            if (e.target.textContent === keyEl) {
                 validator.innerHTML = "<p class='response'>Correct!</p>";
                 validator.style.display = "block";
             } else {
@@ -157,16 +156,14 @@ function checkAnswer() {
         }
 
         if (count <= totalCount--) {
-            ++count;
+            //console.log("Count: " + count + ", Loop totalCount: " + totalCount);
             nextPage();
         } else {
             //endQuiz();
         }
 
-        e.stopPropagation();
+        //e.stopPropagation();
     });
-
-    return;
 }
 
 // Submit initials with score
