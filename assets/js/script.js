@@ -20,45 +20,47 @@ var startQuizBtn = document.querySelector(".start"), // Must add "." or "#". Can
 
 // Counters
 var timer = 59,
-    count = 0;
-    score = 0;
+    count = 0,
+    score = 0,
+    timerInterval;
 
 // Store questions, choices, answers and value of answer in array of objects
 var quiz = [
     {
         question: "Commonly used data types DO NOT include:",
         options: ["strings", "booleans", "alerts", "numbers"],
-        anskey: "alerts",
-        value: 20
+        anskey: "alerts"
     },
     {
         question: "The condition in an if/else statement is enclosed within ______.",
         options: ["quotes", "curly brackets", "parenthesis", "square brackets"],
-        anskey: "parenthesis",
-        value: 20
+        anskey: "parenthesis"
     },
     {
         question: "Arrays in JavaScript can be used to store ______.",
         options: ["numbers and strings", "other arrays", "booleans", "all of the above"],
-        anskey: "all of the above",
-        value: 20
+        anskey: "all of the above"
     },
     {
         question: "String values must be enclosed within when being assigned to variables.",
         options: ["commas", "curly brackets", "quotes", "parenthesis"],
-        anskey: "quotes",
-        value: 20
+        anskey: "quotes"
     },
     {
         question: "A very usefull tool used during development and debugging for printing content to the debugger is:",
         options: ["JavaScript", "terminal/bash", "for loops", "console.log"],
-        anskey: "console.log",
-        value: 20
+        anskey: "console.log"
     },
 ];
 
 // Get scores on page load
 function init() {
+    var savedScore = JSON.parse(localStorage.getItem("userFinalScore"));
+
+    if (savedScore !== null) {
+        allScores = savedScore;
+    }
+
     nextPage(count);
 }
 
@@ -66,7 +68,7 @@ function init() {
 function nextPage(index) {  
     var output = "";    
 
-    console.log(count, quiz[index]);
+    //console.log(count, quiz[index]);
 
     output  = "<h2>" + quiz[index].question + "</h2>";
     output += "<ol id='options' class='options'>";
@@ -85,7 +87,7 @@ function nextPage(index) {
 
 // Update timer
 function timerText() {
-    var timerInterval = setInterval(function() {
+    timerInterval = setInterval(function() {
         timer--;
         timeEl.textContent = timer;
 
@@ -108,13 +110,11 @@ function startQuiz() {
 }
 
 // Hide quiz, show save initials and score 
-function endQuiz() {  
-    if (timer > 0) {
-        timeEl.textContent = 0;
-    } else {
-        timeEl.innerHTML = 0;
-    }
-    
+function endQuiz() {     
+    // Stop timer
+    timeEl.textContent = "0";
+    clearInterval(timerInterval);
+
     // Need to calculate score based on correct answers
     userScore.innerHTML = score;
      
@@ -126,16 +126,16 @@ function endQuiz() {
 function storeScore() {
 
     // Save data as an object to browser
-    var userFinalScore = {
+    allScores = [{
         user: userInitials.value,
         score: userScore.textContent
-    };
-    localStorage.setItem("userFinalScore", JSON.stringify(userFinalScore));
+    }];
+    localStorage.setItem("allScores", JSON.stringify(allScores));
 }
 
 // Show all scores
 function showScores() {  
-    
+    // Can't exit quiz once started    
     if (timeEl.textContent > 0) {
         alert("This action is unavailable at this time.");
     } else {
@@ -143,6 +143,18 @@ function showScores() {
         quizCont.style.display = "none";
         endScreen.style.display = "none";
         highScores.style.display = "block";    
+    }
+    
+    // Use JSON.parse() to convert text to JavaScript object
+    var savedScore = JSON.parse(localStorage.getItem("allScores"));
+
+    console.log(savedScore);
+
+    // Check if data is returned, if not exit out of the function
+    if (savedScore !== null) {
+        document.querySelector(".score-list").innerHTML += "<li>" + savedScore.user + " - " + savedScore.score + "</li>";
+    } else {
+        return;
     }
 }
 
@@ -154,7 +166,13 @@ function resetQuiz() {
 
 // Clear all scores
 function clearScores() {
-    
+    var savedScore = JSON.parse(localStorage.getItem("userFinalScore"));
+
+    if (savedScore !== "") {
+        document.querySelector(".score-list li").innerHTML = "";
+    } else {
+        return;
+    }    
 }
 
 // Event listeners
@@ -180,7 +198,7 @@ clearBtn.addEventListener("click", clearScores);
 // Check answers and skip to next question
 quizCont.addEventListener("click", function(e) {
     if (e.target !== e.currentTarget) {
-        console.log(e.target.textContent);
+        //console.log(e.target.textContent);
         if (e.target.id === 'answer') {
             validator.innerHTML = "<p class='response'>Correct!</p>";
             validator.style.display = "block";
@@ -197,7 +215,7 @@ quizCont.addEventListener("click", function(e) {
 
     if (count < quiz.length) {
         nextPage(count);
-    } else {
+    } else {         
         endQuiz();
     }
 });
