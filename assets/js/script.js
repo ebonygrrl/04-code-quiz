@@ -21,8 +21,11 @@ var startQuizBtn = document.querySelector(".start"), // Must add "." or "#". Can
 // Counters
 var timer = 59,
     count = 0,
-    score = 0,
-    timerInterval;
+    score = 0;
+
+// Local storage variables
+var allScores = [],
+    savedScores = "";
 
 // Store questions, choices, answers and value of answer in array of objects
 var quiz = [
@@ -53,22 +56,9 @@ var quiz = [
     },
 ];
 
-// Get scores on page load
-function init() {
-    var savedScore = JSON.parse(localStorage.getItem("userFinalScore"));
-
-    if (savedScore !== null) {
-        allScores = savedScore;
-    }
-
-    nextPage(count);
-}
-
 // Go to next question
 function nextPage(index) {  
     var output = "";    
-
-    //console.log(count, quiz[index]);
 
     output  = "<h2>" + quiz[index].question + "</h2>";
     output += "<ol id='options' class='options'>";
@@ -87,6 +77,7 @@ function nextPage(index) {
 
 // Update timer
 function timerText() {
+    timer = 59;
     timerInterval = setInterval(function() {
         timer--;
         timeEl.textContent = timer;
@@ -120,21 +111,41 @@ function endQuiz() {
      
     quizCont.style.display = "none";
     endScreen.style.display = "block";
+
+    // Ensure quiz resets
+    count = 0;
 }
 
 // Submit initials with score
 function storeScore() {
-
     // Save data as an object to browser
-    allScores = [{
+    allScores = {
         user: userInitials.value,
         score: userScore.textContent
-    }];
+    };
     localStorage.setItem("allScores", JSON.stringify(allScores));
+
+    //console.log(allScores, savedScores, savedScores.length);
 }
 
 // Show all scores
-function showScores() {  
+function showScores() {     
+    var scoreItem = "",
+        savedScores = JSON.parse(localStorage.getItem("allScores"));
+        console.log(savedScores);             
+
+    // Limit scores
+    var maxLength = 10;    
+
+    // Check if data is returned, if not exit out of the function
+    if (savedScores !== null) {
+        scoreItem = "<li>" + savedScores.user + " - " + savedScores.score + "</li>";   
+        document.querySelector(".score-list").innerHTML += scoreItem;
+    } else {
+        alert("Sorry. No scores available.");
+        return;
+    }
+
     // Can't exit quiz once started    
     if (timeEl.textContent > 0) {
         alert("This action is unavailable at this time.");
@@ -144,35 +155,18 @@ function showScores() {
         endScreen.style.display = "none";
         highScores.style.display = "block";    
     }
-    
-    // Use JSON.parse() to convert text to JavaScript object
-    var savedScore = JSON.parse(localStorage.getItem("allScores"));
-
-    console.log(savedScore);
-
-    // Check if data is returned, if not exit out of the function
-    if (savedScore !== null) {
-        document.querySelector(".score-list").innerHTML += "<li>" + savedScore.user + " - " + savedScore.score + "</li>";
-    } else {
-        return;
-    }
 }
 
-// Reset quiz - Go back button // WORKS!
+// Reset quiz - Go back button 
 function resetQuiz() {    
     startScreen.style.display = "block";
-    highScores.style.display = "none";    
+    highScores.style.display = "none"; 
 }
 
 // Clear all scores
 function clearScores() {
-    var savedScore = JSON.parse(localStorage.getItem("userFinalScore"));
-
-    if (savedScore !== "") {
-        document.querySelector(".score-list li").innerHTML = "";
-    } else {
-        return;
-    }    
+    window.localStorage.clear(); 
+    document.querySelector(".score-list").innerHTML.style.visible = "hidden"; 
 }
 
 // Event listeners
@@ -186,7 +180,9 @@ startQuizBtn.addEventListener("click", startQuiz);
 submitBtn.addEventListener("click", function(e) {
     e.preventDefault();
     storeScore();
-    showScores();
+    //showScores();
+
+    userInitials.value = "";
 });
 
 // Go back to start quiz
@@ -198,11 +194,13 @@ clearBtn.addEventListener("click", clearScores);
 // Check answers and skip to next question
 quizCont.addEventListener("click", function(e) {
     if (e.target !== e.currentTarget) {
-        //console.log(e.target.textContent);
+        
         if (e.target.id === 'answer') {
             validator.innerHTML = "<p class='response'>Correct!</p>";
             validator.style.display = "block";
-            score += 20; // Add to total score
+            if (score < 100) {
+                score += 20; // Add to total score
+            }
         } else {
             validator.innerHTML = "<p class='response'>Wrong!</p>";  
             validator.style.display = "block";
@@ -210,7 +208,7 @@ quizCont.addEventListener("click", function(e) {
         }
     }
 
-    // Increase count for index
+    // Increase count for question index
     count += 1;
 
     if (count < quiz.length) {
@@ -220,5 +218,14 @@ quizCont.addEventListener("click", function(e) {
     }
 });
 
-// initial function
+// Get scores on page load
+function init() {
+    nextPage(count);
+
+    if (savedScores !== null) {
+        allScores = savedScores;
+    }
+}
+
+// On page load
 init();

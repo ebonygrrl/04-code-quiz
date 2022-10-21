@@ -51,6 +51,7 @@ h1 {
 header {
     margin: 0 auto 75px;
     max-width: 1000px;
+    padding: 0 20px;
 }
 
 input {
@@ -67,8 +68,13 @@ ol {
 }
 
 ol li {
-    background-color: lavender;
+    background-color: #ededed;
+    margin-bottom: 10px;
     padding: 10px;
+}
+
+ol li:first-child {
+    background-color: lavender;
 }
 
 main {
@@ -118,14 +124,14 @@ main p {
 }
 
 .response {
-    animation: fadeinout 2s linear forwards;
+    animation: fadeinout 1s linear forwards;
     border-top: 1px solid var(--dkgray);
     color: var(--dkgray);
     font-style: italic;
     opacity: 1;
     padding: 5px 0;
     text-align: left;
-    -webkit-animation: fadeinout 2s linear forwards;
+    -webkit-animation: fadeinout 1s linear forwards;
 
 }
 
@@ -161,5 +167,4 @@ main p {
 }
 
 @media screen and (min-width: 376px) and (max-width: 1119px) {
-
 }
