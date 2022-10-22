@@ -11,45 +11,38 @@
 <body>
     <header>
         <section class="dashboard">
-            <button class="scores">View High Scores</button>
+            <span class="scores">View High Scores</span>
             <div>Time: <span class="timer">0</span></div>
         </section>
     </header>
     <main>
-        <section id="quiz" class="quiz-container">
-            <h1>Coding Quiz Challenge</h1>
-            <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
-            <button class="start">Start Quiz</button>
-        </section>
-        <section>
-            <p id="validator" class="response"></p>
+        <section class="quiz-container">
+            <section id="quiz-start">
+                <h1>Coding Quiz Challenge</h1>
+                <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
+                <button class="start">Start Quiz</button>
+            </section>  
+            <section id="qna" class="hide">          
+                <div id="quiz"></div>
+                <div id="validator"></div>
+            </section>
+            <section id="quiz-end" class="hide">
+                <h2>All done!</h2>
+                <span>Your final score is <span id="final-score">0</span>.</span>
+                <form>
+                    <input id="initials" type="text" maxlength="3">
+                    <button id="submit" type="submit">Submit</button>
+                </form>
+            </section>
+            <section id="high-scores" class="hide">
+                <h2>High Scores</h2>
+                <ol class="score-list">
+                </ol>
+                <button class="reset">Go Back</button>
+                <button class="clear">Clear High Scores</button>
+            </section>
         </section>
     </main>
     <script src="assets/js/script.js"></script>
 </body>
 </html>
-
-
-<!--
-/*for(i=0; i < items.length; i++ ) {
-    var item = items[i];
-    //console.log(item.answers);
-
-    questionEl += "<h2>" + item.question + "</h2>";
-    //console.log("LOOK" + questionEl);
-
-    for(var answer of item.answers) {
-        //var answer = item.answers[key];
-        //console.log(answer);
-        answerEl = "<button class='answer'>" + answer + "</button>";
-    }
-    /*for(var answer of item.answers) {
-        //var answer = item.answers[key];
-        console.log(answer);
-       // answerEl = "<button class='answer'>" + answer + "</button>";
-    }*/
-    //newText.innerHTML = answerEl;
-    
-
-    
-}*/-->
