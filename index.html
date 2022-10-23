@@ -22,8 +22,9 @@
                 <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
                 <button class="start">Start Quiz</button>
             </section>  
-            <section id="qna" class="hide">          
-                <div id="quiz"></div>
+            <section id="qna" class="hide">
+                <header id="question" class="quiz-header"></header>  
+                <ol id="options" class="options"></ol>
                 <div id="validator"></div>
             </section>
             <section id="quiz-end" class="hide">
@@ -36,8 +37,10 @@
             </section>
             <section id="high-scores" class="hide">
                 <h2>High Scores</h2>
-                <ol class="score-list">
-                </ol>
+                <div id="score-container">
+                    <ol class="score-list">
+                    </ol>
+                </div>
                 <button class="reset">Go Back</button>
                 <button class="clear">Clear High Scores</button>
             </section>
