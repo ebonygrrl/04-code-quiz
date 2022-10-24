@@ -10,6 +10,7 @@ var clearBtn     = document.querySelector(".clear"),
     userInitials = document.getElementById("initials"),
     userScore    = document.getElementById("final-score"),
     optionsList  = document.getElementById("options"),
+    scoreList    = document.querySelector(".score-list"),
     noScore      = document.getElementById("no-score");
 
 // Counters
@@ -105,7 +106,6 @@ function nextPage(index) {
 // Show all scores
 function showScores() {     
     var scoreItem   = "",
-        scoreList   = document.querySelector(".score-list"),
         savedScores = JSON.parse(localStorage.getItem("allScores"));
 
     if (savedScores !== null) {
@@ -148,8 +148,10 @@ function timerText() {
 // Clear high scores
 clearBtn.addEventListener("click", function() {
     window.localStorage.clear(); 
-    document.getElementById("score-container").innerHTML = "<h3>Sorry. No scores available.</h3>";
+    noScore.innerHTML = "<h3>Sorry. No scores available.</h3>";
     clearBtn.style.display = "none"; 
+    scoreList.style.display = "block";
+    window.location.reload();
 });
 
 // Check answers and skip to next question
