@@ -19,11 +19,7 @@ To use this application:
 4. All wrong answers will deduct 10 seconds from the timer.
 5. When the timer hits 0 or the last question is answered, you will be prompted to enter your initials to save your score.
    
-Prompt for password length
-
-![Prompt for password length](./assets/images/password-length-prompt.jpg)
-
-
+![Code Quiz run through animation](./assets/images/coding-quiz-challenge.gif)
 
 ## Credits
 
