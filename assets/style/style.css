@@ -21,6 +21,7 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     margin-top: 15px;
+    min-width: 400px;
 }
 
 button {
@@ -68,13 +69,8 @@ ol {
 }
 
 ol li {
-    background-color: #ededed;
     margin-bottom: 10px;
     padding: 10px;
-}
-
-ol li:first-child {
-    background-color: lavender;
 }
 
 main {
@@ -123,6 +119,11 @@ main p {
     box-shadow: 1px 1px 5px #000;
 }
 
+.quiz-header {
+    margin: 0;
+    padding: 0;
+}
+
 .response {
     animation: fadeinout 1s linear forwards;
     border-top: 1px solid var(--dkgray);
@@ -133,6 +134,21 @@ main p {
     text-align: left;
     -webkit-animation: fadeinout 1s linear forwards;
 
+}
+
+.score-list {
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.score-list li {
+    background-color: #ededed;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.score-list li:first-child {
+    background-color: lavender;
 }
 
 .scores {
@@ -155,11 +171,6 @@ main p {
 .quiz-container .start {
     display: block;
     margin:0 auto;
-}
-
-.score-list {
-    margin-left: 0;
-    padding-left: 0;
 }
 
 /* media queries */
