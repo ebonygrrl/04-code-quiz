@@ -9,12 +9,16 @@ var clearBtn     = document.querySelector(".clear"),
     highScores   = document.getElementById("high-scores"),
     userInitials = document.getElementById("initials"),
     userScore    = document.getElementById("final-score"),
-    optionsList  = document.getElementById("options");
+    optionsList  = document.getElementById("options"),
+    noScore      = document.getElementById("no-score");
 
 // Counters
 var timer = 59,
     count = 0,
     score = 0;
+
+// Store scores
+var allScores = [];
 
 // Store questions, choices, answers and value of answer in array of objects
 var quiz = [
@@ -53,6 +57,7 @@ function endQuiz() {
 
     // Need to calculate score based on correct answers
     userScore.innerHTML = score;
+    userInitials.value = "";
      
     quizWrap.style.display = "none";
     endScreen.style.display = "block";
@@ -64,7 +69,18 @@ function endQuiz() {
 // Get scores on page load
 function init() {
     nextPage(count);
-    showScores();
+    
+    // Get stored scores
+    var savedScores = JSON.parse(localStorage.getItem("allScores"));    
+
+    // Update allScores array
+    if (savedScores !== null) {
+        allScores = savedScores;
+        showScores();
+    } else {
+        noScore.innerHTML = "<h3>Sorry. No scores available.</h3>";
+        clearBtn.style.display = "none";
+    } 
 }
 
 // Go to next question
@@ -90,34 +106,25 @@ function nextPage(index) {
 function showScores() {     
     var scoreItem   = "",
         scoreList   = document.querySelector(".score-list"),
-        savedScores = JSON.parse(localStorage.getItem("allScores")),
-        scoreWrap   = document.getElementById("score-container");
+        savedScores = JSON.parse(localStorage.getItem("allScores"));
 
-    // Check if data is returned, if not exit out of the function
-    if (savedScores !== null) {     
-        // Limit list length
-        if (scoreList.children.length < 5) {   
-            scoreItem = "<li>" + savedScores.user + " - " + savedScores.score + "</li>";
-            scoreList.innerHTML += scoreItem;
-        }
-    } else {
-        scoreWrap.innerHTML = "<h3>Sorry. No scores available.</h3>";
-        clearBtn.style.display = "none";
-        return;
+    if (savedScores !== null) {
+        scoreItem = "<li>" + savedScores.user + " - " + savedScores.score + "</li>"; 
+        scoreList.innerHTML = scoreItem + scoreList.innerHTML;
+        noScore.style.display = "none";
     }
-    //console.log(savedScores);
 }
 
 // Submit initials with score
-function storeScore() {
-    var allScores = [];
-    
+function storeScore() {    
     // Save data as an object to local storage
     allScores = {
-        user: userInitials.value,
+        user: userInitials.value.trim(),
         score: userScore.textContent
     };
+    
     localStorage.setItem("allScores", JSON.stringify(allScores));
+    showScores();
 }
 
 // Update timer
@@ -171,7 +178,6 @@ optionsList.addEventListener("click", function(e) {
         nextPage(count);
     } else {         
         endQuiz();
-        storeScore();
     }    
 });
 
@@ -197,18 +203,16 @@ document.querySelector(".start").addEventListener("click", function() {
 
 // Submit initials
 document.getElementById("submit").addEventListener("click", function(e) {
-    e.preventDefault();  
+    e.preventDefault(); 
 
     if (userInitials.value === "") {
         alert("Please enter your initials.");
     } else {
-        storeScore();
-        showScores();
-        
-        userInitials.value = "";
         endScreen.style.display = "none";
         highScores.style.display = "block";
-    }    
+
+        storeScore();
+    }
 });
 
 // Show high scores
