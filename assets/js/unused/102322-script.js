@@ -9,7 +9,8 @@ var clearBtn     = document.querySelector(".clear"),
     highScores   = document.getElementById("high-scores"),
     userInitials = document.getElementById("initials"),
     userScore    = document.getElementById("final-score"),
-    optionsList  = document.getElementById("options");
+    optionsList  = document.getElementById("options"),
+    scoreWrap    = document.getElementById("score-container");
 
 // Counters
 var timer = 59,
@@ -56,9 +57,6 @@ function endQuiz() {
      
     quizWrap.style.display = "none";
     endScreen.style.display = "block";
-
-    count = 0;
-    nextPage(count);
 }
 
 // Get scores on page load
@@ -89,23 +87,21 @@ function nextPage(index) {
 // Show all scores
 function showScores() {     
     var scoreItem   = "",
-        scoreList   = document.querySelector(".score-list"),
         savedScores = JSON.parse(localStorage.getItem("allScores")),
-        scoreWrap   = document.getElementById("score-container");
+        scoreList   = document.querySelector(".score-list");
 
     // Check if data is returned, if not exit out of the function
-    if (savedScores !== null) {     
+    if (savedScores !== null) { 
         // Limit list length
         if (scoreList.children.length < 5) {   
             scoreItem = "<li>" + savedScores.user + " - " + savedScores.score + "</li>";
             scoreList.innerHTML += scoreItem;
         }
     } else {
-        scoreWrap.innerHTML = "<h3>Sorry. No scores available.</h3>";
+        scoreWrap.innerHTML = "<h3>Sorry. No scores available.</h3>" + scoreWrap.innerHTML;
         clearBtn.style.display = "none";
-        return;
     }
-    //console.log(savedScores);
+    console.log(savedScores);
 }
 
 // Submit initials with score
@@ -140,7 +136,7 @@ function timerText() {
 // Clear high scores
 clearBtn.addEventListener("click", function() {
     window.localStorage.clear(); 
-    document.getElementById("score-container").innerHTML = "<h3>Sorry. No scores available.</h3>";
+    scoreWrap.innerHTML = "<h3>Sorry. No scores available.</h3>";
     clearBtn.style.display = "none"; 
 });
 
@@ -157,21 +153,21 @@ optionsList.addEventListener("click", function(e) {
             validator.innerHTML = "<p class='response'>Wrong!</p>";  
             validator.style.display = "block";
             // Avoid negative timer
-            if (timer <= 15) {
+            if (timer <= 10) {
                 timerText();
             } else {
-                timer -= 15; // Penalty for wrong answer
+                timer -= 10; // Penalty for wrong answer
             }
-        } 
-    }      
-    // Increase count for question index
-    count += 1;
-
-    if (count < quiz.length) {     
-        nextPage(count);
-    } else {         
-        endQuiz();
-        storeScore();
+        }    
+        // Increase count for question index
+        count += 1;
+    
+        if (count < quiz.length) {     
+            nextPage(count);
+        } else {         
+            endQuiz();
+            storeScore();
+        }   
     }    
 });
 
