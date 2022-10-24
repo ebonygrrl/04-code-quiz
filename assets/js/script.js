@@ -112,6 +112,7 @@ function showScores() {
         scoreItem = "<li>" + savedScores.user + " - " + savedScores.score + "</li>"; 
         scoreList.innerHTML = scoreItem + scoreList.innerHTML;
         noScore.style.display = "none";
+        clearBtn.style.display = "inline-block";
     }
 }
 
